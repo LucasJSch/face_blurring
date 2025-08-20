@@ -14,8 +14,8 @@ ALLOWED_IMAGE_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 ALLOWED_VIDEO_EXTENSIONS = {'mp4', 'avi', 'mov'}
 ALLOWED_EXTENSIONS = ALLOWED_IMAGE_EXTENSIONS | ALLOWED_VIDEO_EXTENSIONS
 
-# Initialize face blurrer
-face_blurrer = FaceBlurrer()
+# Initialize face blurrer with default settings (will be reconfigured per request)
+face_blurrer = None
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -40,6 +40,16 @@ def upload_file():
     
     file = request.files['file']
     effect = request.form.get('effect', 'blur')
+    model_type = request.form.get('model_type', 'haar_default')
+    blur_strength = request.form.get('blur_strength', '51')
+    pixel_size = request.form.get('pixel_size', '20')
+    
+    # Convert parameters to appropriate types
+    try:
+        blur_strength = int(blur_strength)
+        pixel_size = int(pixel_size)
+    except ValueError:
+        return jsonify({'error': 'Invalid parameter values'}), 400
     
     if file.filename == '':
         return jsonify({'error': 'No file selected'}), 400
@@ -48,6 +58,9 @@ def upload_file():
         return jsonify({'error': 'File type not allowed'}), 400
     
     try:
+        # Initialize face blurrer with specified parameters
+        face_blurrer = FaceBlurrer(model_type=model_type, blur_strength=blur_strength, pixel_size=pixel_size)
+        
         # Generate unique filename
         original_filename = secure_filename(file.filename)
         file_extension = original_filename.rsplit('.', 1)[1].lower()
@@ -62,10 +75,10 @@ def upload_file():
         processed_path = os.path.join(app.config['PROCESSED_FOLDER'], processed_filename)
         
         if is_image_file(original_filename):
-            faces_detected = face_blurrer.process_image(upload_path, processed_path, effect)
+            faces_detected = face_blurrer.process_image(upload_path, processed_path, effect, blur_strength, pixel_size)
             file_type = 'image'
         elif is_video_file(original_filename):
-            faces_detected = face_blurrer.process_video(upload_path, processed_path, effect)
+            faces_detected = face_blurrer.process_video(upload_path, processed_path, effect, blur_strength, pixel_size)
             file_type = 'video'
         else:
             return jsonify({'error': 'Unsupported file type'}), 400
@@ -77,7 +90,10 @@ def upload_file():
             'processed_url': url_for('processed_file', filename=processed_filename),
             'faces_detected': faces_detected,
             'file_type': file_type,
-            'effect': effect
+            'effect': effect,
+            'model_type': model_type,
+            'blur_strength': blur_strength,
+            'pixel_size': pixel_size
         })
         
     except Exception as e:

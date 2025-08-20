@@ -12,6 +12,21 @@ document.addEventListener('DOMContentLoaded', function() {
     const errorSection = document.getElementById('errorSection');
     const errorText = document.getElementById('errorText');
     
+    // Range slider elements
+    const blurStrengthSlider = document.getElementById('blurStrength');
+    const blurValueSpan = document.getElementById('blurValue');
+    const pixelSizeSlider = document.getElementById('pixelSize');
+    const pixelValueSpan = document.getElementById('pixelValue');
+    
+    // Range slider update handlers
+    blurStrengthSlider.addEventListener('input', function() {
+        blurValueSpan.textContent = this.value;
+    });
+    
+    pixelSizeSlider.addEventListener('input', function() {
+        pixelValueSpan.textContent = this.value;
+    });
+    
     // File input change handler
     fileInput.addEventListener('change', function() {
         const file = this.files[0];
@@ -110,6 +125,9 @@ document.addEventListener('DOMContentLoaded', function() {
             <strong>Processing Complete!</strong><br>
             File: ${data.original_filename}<br>
             Effect: ${data.effect}<br>
+            Model: ${data.model_type}<br>
+            Blur Strength: ${data.blur_strength}<br>
+            Pixel Size: ${data.pixel_size}<br>
             Faces detected: ${data.faces_detected}
         `;
         

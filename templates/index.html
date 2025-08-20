@@ -37,6 +37,34 @@
                     </div>
                 </div>
 
+                <div class="model-selection">
+                    <label for="modelType">Face Detection Model:</label>
+                    <select name="model_type" id="modelType" class="model-select">
+                        <option value="haar_default">Haar Cascade (Default)</option>
+                        <option value="haar_alt">Haar Cascade (Alternative)</option>
+                        <option value="haar_alt2">Haar Cascade (Alternative 2)</option>
+                        <option value="haar_profile">Haar Cascade (Profile)</option>
+                    </select>
+                </div>
+
+                <div class="parameter-controls">
+                    <div class="parameter-group">
+                        <label for="blurStrength">Blur Strength:</label>
+                        <div class="range-wrapper">
+                            <input type="range" name="blur_strength" id="blurStrength" min="5" max="99" step="2" value="51" class="range-input">
+                            <span class="range-value" id="blurValue">51</span>
+                        </div>
+                    </div>
+                    
+                    <div class="parameter-group">
+                        <label for="pixelSize">Pixel Size:</label>
+                        <div class="range-wrapper">
+                            <input type="range" name="pixel_size" id="pixelSize" min="5" max="50" value="20" class="range-input">
+                            <span class="range-value" id="pixelValue">20</span>
+                        </div>
+                    </div>
+                </div>
+
                 <button type="submit" id="uploadBtn" class="upload-btn">
                     <span class="btn-text">Process File</span>
                     <span class="loading-spinner" style="display: none;">Processing...</span>
