@@ -2,6 +2,12 @@
 
 A web application that automatically detects and blurs faces in images and videos using OpenCV.
 
+The models available for face detection have some limitations:
+- **Haar Cascade (Default)**: Best for frontal faces, may miss some angles.
+- **Haar Cascade (Alternative)**: Similar to the default, but may perform better in certain scenarios.
+- **Haar Cascade (Alternative 2)**: Another option for frontal faces, with different training data.
+- **Haar Cascade (Profile)**: Specifically designed for profile face detection, but may not detect frontal faces.
+
 ## Features
 
 - **Face Detection**: Automatically detects faces using multiple OpenCV models:
