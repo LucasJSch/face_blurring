@@ -1,5 +1,9 @@
 # Face Blurring Application
 
+<img width="933" height="964" alt="Screenshot from 2025-08-20 13-24-04" src="https://github.com/user-attachments/assets/963b857c-aac3-4a86-9484-d8293c01a485" />
+
+
+
 A web application that automatically detects and blurs faces in images and videos using OpenCV.
 
 The models available for face detection have some limitations:
