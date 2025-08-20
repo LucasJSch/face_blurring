@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Blurring App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Face Blurring Application</h1>
+            <p>Upload an image or video to automatically detect and blur faces</p>
+        </header>
+
+        <div class="upload-section">
+            <form id="uploadForm" enctype="multipart/form-data">
+                <div class="file-input-wrapper">
+                    <input type="file" id="fileInput" name="file" accept=".jpg,.jpeg,.png,.gif,.mp4,.avi,.mov" required>
+                    <label for="fileInput" class="file-input-label">
+                        <span class="file-input-text">Choose Image or Video</span>
+                        <span class="file-input-button">Browse</span>
+                    </label>
+                </div>
+
+                <div class="effect-selection">
+                    <label>Effect:</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="effect" value="blur" checked>
+                            <span>Blur</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="effect" value="pixelate">
+                            <span>Pixelate</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" id="uploadBtn" class="upload-btn">
+                    <span class="btn-text">Process File</span>
+                    <span class="loading-spinner" style="display: none;">Processing...</span>
+                </button>
+            </form>
+        </div>
+
+        <div id="progressSection" class="progress-section" style="display: none;">
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+            <p class="progress-text">Processing your file...</p>
+        </div>
+
+        <div id="resultSection" class="result-section" style="display: none;">
+            <h2>Results</h2>
+            <div id="resultInfo" class="result-info"></div>
+            
+            <div class="media-comparison">
+                <div class="media-container">
+                    <h3>Original</h3>
+                    <div id="originalMedia"></div>
+                </div>
+                
+                <div class="media-container">
+                    <h3>Processed</h3>
+                    <div id="processedMedia"></div>
+                    <button id="downloadBtn" class="download-btn" style="display: none;">
+                        Download Processed File
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="errorSection" class="error-section" style="display: none;">
+            <div class="error-message">
+                <h3>Error</h3>
+                <p id="errorText"></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
